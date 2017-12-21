@@ -123,36 +123,36 @@ mod_diamond2 <- lm(lprice ~ lcarat + color + cut + clarity, data = diamonds2)
 
 This model now includes four predictors, so it's getting harder to visualise. Fortunately, they're currently all independent which means that we can plot them individually in four plots. To make the process a little easier, we're going to use the `.model` argument to `data_grid`:
 
-```{r}
-grid <- diamonds2 %>% 
-  data_grid(cut, .model = mod_diamond2) %>% 
-  add_predictions(mod_diamond2)
-grid
+<!-- ```{r} -->
+<!-- grid <- diamonds2 %>%  -->
+<!--   data_grid(cut, .model = mod_diamond2) %>%  -->
+<!--   add_predictions(mod_diamond2) -->
+<!-- grid -->
 
-ggplot(grid, aes(cut, pred)) + 
-  geom_point()
-```
+<!-- ggplot(grid, aes(cut, pred)) +  -->
+<!--   geom_point() -->
+<!-- ``` -->
 
 If the model needs variables that you haven't explicitly supplied, `data_grid()` will automatically fill them in with "typical" value. For continuous variables, it uses the median, and categorical variables it uses the most common value (or values, if there's a tie).
 
-```{r}
-diamonds2 <- diamonds2 %>% 
-  add_residuals(mod_diamond2, "lresid2")
+<!-- #```{r} -->
+<!-- diamonds2 <- diamonds2 %>%  -->
+<!--   add_residuals(mod_diamond2, "lresid2") -->
 
-ggplot(diamonds2, aes(lcarat, lresid2)) + 
-  geom_hex(bins = 50)
-```
+<!-- ggplot(diamonds2, aes(lcarat, lresid2)) +  -->
+<!--   geom_hex(bins = 50) -->
+<!-- #``` -->
 
-This plot indicates that there are some diamonds with quite large residuals - remember a residual of 2 indicates that the diamond is 4x the price that we expected. It's often useful to look at unusual values individually:
+<!-- This plot indicates that there are some diamonds with quite large residuals - remember a residual of 2 indicates that the diamond is 4x the price that we expected. It's often useful to look at unusual values individually: -->
 
-```{r}
-diamonds2 %>% 
-  filter(abs(lresid2) > 1) %>% 
-  add_predictions(mod_diamond2) %>% 
-  mutate(pred = round(2 ^ pred)) %>% 
-  select(price, pred, carat:table, x:z) %>% 
-  arrange(price)
-```
+<!-- #```{r} -->
+<!-- diamonds2 %>%  -->
+<!--   filter(abs(lresid2) > 1) %>%  -->
+<!--   add_predictions(mod_diamond2) %>%  -->
+<!--   mutate(pred = round(2 ^ pred)) %>%  -->
+<!--   select(price, pred, carat:table, x:z) %>%  -->
+<!--   arrange(price) -->
+<!-- #``` -->
 
 Nothing really jumps out at me here, but it's probably worth spending time considering if this indicates a problem with our model, or if there are errors in the data. If there are mistakes in the data, this could be an opportunity to buy diamonds that have been priced low incorrectly.
 
